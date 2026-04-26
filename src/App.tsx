@@ -5,7 +5,7 @@ import LandingPage from './LandingPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/chat" element={<Chat />} />
