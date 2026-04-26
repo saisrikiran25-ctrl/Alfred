@@ -317,37 +317,59 @@ export function generateSmartBotReply(
     reply += `### Executive Analysis: ${relevantItems[0].item.title}\n\n`;
     
     relevantItems.forEach((match, idx) => {
-      if (idx > 0) reply += `---\n\n#### Complementary Insight: ${match.item.title}\n`;
+      if (idx > 0) reply += `---\n\n#### Complementary Insight: ${match.item.title}\n\n`;
       
       const table = synthesizeTable(match.item.content);
       if (table) {
-        reply += "> [!NOTE]\n> Key data points extracted from my records:\n" + table;
+        reply += "#### Statistical Breakdown\n" + table + "\n";
       }
 
-      // Convert content to structured bullet points
-      const sentences = match.item.content.split(/(?<=\.|\?|!)\s+/);
-      sentences.forEach(s => {
-        if (s.trim()) reply += `- ${s.trim()}\n`;
+      // Clean the content before bulletizing
+      let workingContent = match.item.content;
+      
+      // 1. Remove markers like "1. ", "2. ", etc globally
+      workingContent = workingContent.replace(/\b\d+\.\s+/g, "");
+      
+      // 2. Remove items that already went into the table to avoid "Double Info"
+      const patterns = workingContent.match(/([A-Za-z\s\/]+)\s*\((\d+%|\d+[^)]+)\)/g);
+      if (patterns) {
+        patterns.forEach(p => {
+          workingContent = workingContent.replace(p, "").replace(/,\s*,/g, ",").trim();
+        });
+      }
+
+      // convert to sentences
+      const rawSentences = workingContent.split(/\.\s+/);
+      
+      rawSentences.forEach(s => {
+        let cleanSentence = s.trim().replace(/^,|,$/g, "").trim();
+        if (cleanSentence.length < 5) return;
+
+        // Final cleanup of list-like commas
+        cleanSentence = cleanSentence.replace(/,(\d+\.)/g, ".");
+        
+        if (!cleanSentence.match(/[.!?]$/)) cleanSentence += ".";
+        reply += `- ${cleanSentence}\n`;
       });
       reply += "\n";
     });
 
-    reply += "#### 🎯 Strategic Implication\n";
-    reply += "Based on this data, stakeholders should prioritize the identified high-impact variables (e.g., " + (queryTokens[0] || "core features") + ") to maximize consumer conversion and brand equity.";
+    reply += "#### 🎯 Strategic Implication\n\n";
+    reply += "Based on this analysis, stakeholders should prioritize the identified high-impact variables (e.g., " + (queryTokens[0] || "core features") + ") to maximize consumer conversion and brand equity.";
   } else {
     // Concise Mode
     const mainMatch = relevantItems[0].item;
-    const sentences = mainMatch.content.split(/(?<=\.|\?|!)\s+/);
+    const rawSentences = mainMatch.content.split(/(?<!\b\d)\.\s+/);
     
     reply += `**${mainMatch.title}**\n\n`;
-    reply += sentences.slice(0, 2).join(" ");
+    reply += rawSentences.slice(0, 2).map(s => s.trim() + (s.trim().endsWith('.') ? '' : '.')).join(" ");
     
     const table = synthesizeTable(mainMatch.content);
     if (table) {
-      reply += "\n\n**Quick Stats:**\n" + table.split("\n").slice(0, 5).join("\n"); // Show just a snippet of table
+      reply += "\n\n**Quick Stats:**\n" + table.trim();
     }
     
-    reply += `\n\n💡 *Pro Tip: Enable 'DETAILED' mode for a full SWOT and theoretical breakdown.*`;
+    reply += `\n\n💡 *Pro Tip: Access the 'DETAILED' analysis for full strategic implications.*`;
   }
 
   return reply.trim();
