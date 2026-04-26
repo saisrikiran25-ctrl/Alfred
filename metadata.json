@@ -1,0 +1,8 @@
+{
+  "name": "Alfred - Smartphone Consumer Intelligence",
+  "description": "An elegant, Silicon Valley-grade AI assistant focused on the smartphone consumer market.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

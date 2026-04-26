@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  
+  --color-page: #0A0A0A;
+  --color-panel: #111111;
+  --color-border: rgba(255, 255, 255, 0.05);
+  --color-accent: #ffffff;
+  --color-accent-glow: rgba(255, 255, 255, 0.1);
+  
+  --color-user-bubble: #171717;
+  --color-bot-bubble: transparent;
+  
+  --color-text-primary: #e5e7eb;
+  --color-text-secondary: #9ca3af;
+  --color-text-tertiary: #6b7280;
+}
+
+body {
+  background-color: var(--color-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+.markdown-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.markdown-body strong {
+  font-weight: 600;
+  color: #ffffff;
+}
+.markdown-body p {
+  margin-bottom: 0.75rem;
+}
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.markdown-body li {
+  margin-bottom: 0.25rem;
+}
+
+/* Premium Table Styles */
+.markdown-body table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+.markdown-body th {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.markdown-body td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
+}
+.markdown-body tr:last-child td {
+  border-bottom: none;
+}
+.markdown-body tr:hover td {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+/* Header & Blockquote Styles */
+.markdown-body h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.markdown-body h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.markdown-body blockquote {
+  border-left: 4px solid #fff;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+.markdown-body blockquote p {
+  margin: 0;
+  font-style: italic;
+  color: #fff;
+}
